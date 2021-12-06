@@ -10,7 +10,7 @@ scripts:
   run-workload:
     - sh: cd ${{WORKLOAD_DIR}}/demo-repo
     - sh: ./script.sh > ${{WORKLOAD_DIR}}/result.out
-    - queue-download: ${{WORKLOAD_DIR}}/result.out result.out
+    - queue-download: ${{WORKLOAD_DIR}}/result.out
 
 hosts:
   local : ${{USER}}@${{HOST}}
