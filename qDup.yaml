@@ -5,10 +5,11 @@ scripts:
     - sh: mkdir -p ${{WORKLOAD_DIR}}
     - sh: cd ${{WORKLOAD_DIR}}
     - sh: git clone ${{WORKLOAD_GIT_REPO}}
+    - sh: cd ${{WORKLOAD_REPO_NAME}}
     - sh: git checkout ${{WORKLOAD_COMMIT}}
 
   run-workload:
-    - sh: cd ${{WORKLOAD_DIR}}/demo-repo
+    - sh: cd ${{WORKLOAD_DIR}}/${{WORKLOAD_REPO_NAME}}
     - sh: ./script.sh > ${{WORKLOAD_DIR}}/result.out
     - queue-download: ${{WORKLOAD_DIR}}/result.out
 
@@ -25,6 +26,7 @@ roles:
 states:
   WORKLOAD_DIR: /tmp/demo-workload
   WORKLOAD_GIT_REPO: https://github.com/johnaohara/demo-repo.git
+  WORKLOAD_REPO_NAME: demo-repo
   WORKLOAD_COMMIT: origin/main
   USER: johara
   HOST: localhost
