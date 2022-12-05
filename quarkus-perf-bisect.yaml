@@ -8,6 +8,10 @@ scripts:
     - sh: git fetch --all
     - sh: git checkout -f ${{QUARKUS_COMMIT}}
     - sh: mvn clean install -T C1 -Dquickly
+      then:
+      - regex: BUILD FAILURE
+        then:
+        - abort: Quarkus Failed to Build
 
   setup-quarkus-qe-start-stop:
     - sh: mkdir -p /tmp/perf-bisect/quarkus

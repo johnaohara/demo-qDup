@@ -7,7 +7,7 @@
     "validator": {
       "ScalarFileLimitValidator": {
         "filePath": "localhost/result.out",
-        "limit": "700000"
+        "limit": "670000"
       }
     },
     "qDup": {
