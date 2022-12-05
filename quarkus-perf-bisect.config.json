@@ -2,12 +2,12 @@
     "project": {
       "repoUrl": "https://github.com/quarkusio/quarkus.git",
       "badCommit": "bc5fb5a3a05dd4dd9c45dceaec84d3afd60dbf58",
-      "goodCommit": "2c47a0f10184b7418d263f4c4c12bbeaf09225c2"
+      "goodCommit": "3f94ebd676bb9c9804220ad8fce7f71e5ce1dee4" 
     },
     "validator": {
       "ScalarFileLimitValidator": {
         "filePath": "localhost/result.out",
-        "limit": "670000"
+        "limit": "680000.0"
       }
     },
     "qDup": {
