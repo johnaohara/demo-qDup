@@ -1,0 +1,45 @@
+scripts:
+
+  setup-quarkus:
+    - sh: mkdir -p /tmp/perf-bisect/quarkus
+    - sh: cd /tmp/perf-bisect/quarkus
+    - sh: [ -d "quarkus" ] || git clone ${{QUARKUS_REPO_URL}}
+    - sh: cd ./quarkus
+    - sh: git fetch --all
+    - sh: git checkout -f ${{QUARKUS_COMMIT}}
+    - sh: mvn clean install -T C1 -Dquickly
+
+
+  setup-quarkus-qe-start-stop:
+    - sh: mkdir -p /tmp/perf-bisect/quarkus
+    - sh: [ -d "quarkus-startstop" ] || git clone ${{START_STOP_REPO_URL}}
+    - sh: cd ./quarkus-startstop
+    - sh: git fetch --all
+    - sh: git checkout -f ${{START_STOP_BRANCH}}
+
+  run-test:
+    - sh: cd /tmp/perf-bisect/quarkus/quarkus-startstop
+    - sh: mvn clean test -Ptestsuite -Dtest=StartStopTest#fullMicroProfileNative -Dquarkus.version=999-SNAPSHOT
+    - sh: awk -F',' '(NR>1){sum+=$7; ++n} END { print sum/n }' < testsuite/target/archived-logs/io.quarkus.ts.startstop.StartStopTest/fullMicroProfileNative/measurements.csv > result.out
+    - queue-download: ./result.out
+
+hosts:
+  local : ${{USER}}@${{HOST}}
+roles:
+  run-hello-qdup:
+    hosts:
+      - local
+    setup-scripts:
+      - setup-quarkus
+      - setup-quarkus-qe-start-stop
+    run-test:
+      - run-workload
+states:
+  QUARKUS_REPO_URL: git@github.com:quarkusio/quarkus.git
+  QUARKUS_COMMIT: origin/main
+
+  START_STOP_REPO_URL: git@github.com:quarkus-qe/quarkus-startstop.git
+  START_STOP_BRANCH: disable_cleanup_topic.1122.minor-tweaks.2.7-22.3
+  
+  USER: johara
+  HOST: localhost
