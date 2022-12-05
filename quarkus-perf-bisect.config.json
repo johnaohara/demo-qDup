@@ -1,6 +1,6 @@
 {
     "project": {
-      "repoUrl": "git@github.com:quarkusio/quarkus.git",
+      "repoUrl": "https://github.com/quarkusio/quarkus.git",
       "badCommit": "bc5fb5a3a05dd4dd9c45dceaec84d3afd60dbf58",
       "goodCommit": "2c47a0f10184b7418d263f4c4c12bbeaf09225c2"
     },
