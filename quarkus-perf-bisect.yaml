@@ -23,6 +23,10 @@ scripts:
   run-test:
     - sh: cd /tmp/perf-bisect/quarkus/quarkus-startstop
     - sh: mvn clean test -Ptestsuite -Dtest=StartStopTest#fullMicroProfileNative -Dquarkus.version=999-SNAPSHOT
+      then:
+      - regex: BUILD FAILURE
+        then:
+        - abort: Start Stop tests failed
     - sh: awk -F',' '(NR>1){sum+=$7; ++n} END { print sum/n }' < testsuite/target/archived-logs/io.quarkus.ts.startstop.StartStopTest/fullMicroProfileNative/measurements.csv > result.out
     - queue-download: ./result.out
 
